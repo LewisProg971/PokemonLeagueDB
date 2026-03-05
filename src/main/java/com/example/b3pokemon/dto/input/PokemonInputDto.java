@@ -7,17 +7,46 @@ public class PokemonInputDto {
   private String nickname;
   private Integer level;
   private PokemonType type;
-  private Long trainerId; // Permet de lier le Pokémon à un dresseur lors de la création [cite: 25]
+  private Long trainerId;
 
-  // Getters et Setters
-  public String getName() { return name; }
-  public void setName(String name) { this.name = name; }
-  public String getNickname() { return nickname; }
-  public void setNickname(String nickname) { this.nickname = nickname; }
-  public Integer getLevel() { return level; }
-  public void setLevel(Integer level) { this.level = level; }
-  public PokemonType getType() { return type; }
-  public void setType(PokemonType type) { this.type = type; }
-  public Long getTrainerId() { return trainerId; }
-  public void setTrainerId(Long trainerId) { this.trainerId = trainerId; }
+
+  public String getName() {
+    return name;
+  }
+
+  public void setName(String name) {
+    this.name = name;
+  }
+
+  public String getNickname() {
+    return nickname;
+  }
+
+  public void setNickname(String nickname) {
+    this.nickname = nickname;
+  }
+
+  public Integer getLevel() {
+    return level;
+  }
+
+  public void setLevel(Integer level) {
+    this.level = level;
+  }
+
+  public PokemonType getType() {
+    return type;
+  }
+
+  public void setType(PokemonType type) {
+    this.type = type;
+  }
+
+  public Long getTrainerId() {
+    return trainerId;
+  }
+
+  public void setTrainerId(Long trainerId) {
+    this.trainerId = trainerId;
+  }
 }

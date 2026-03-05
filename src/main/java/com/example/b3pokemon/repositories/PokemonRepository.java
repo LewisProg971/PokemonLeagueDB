@@ -9,6 +9,5 @@ import java.util.List;
 
 @Repository
 public interface PokemonRepository extends JpaRepository<PokemonEntity, Long> {
-  // Méthode utile pour la Partie III du cahier des charges
   List<PokemonEntity> findByType(PokemonType type);
 }

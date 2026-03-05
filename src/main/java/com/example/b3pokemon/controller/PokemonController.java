@@ -2,6 +2,7 @@ package com.example.b3pokemon.controller;
 
 import com.example.b3pokemon.dto.input.PokemonInputDto;
 import com.example.b3pokemon.dto.output.PokemonOutputDto;
+import com.example.b3pokemon.enumeration.PokemonType;
 import com.example.b3pokemon.services.IPokemonService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,28 +20,26 @@ public class PokemonController {
     this.pokemonService = pokemonService;
   }
 
-  // Enregistrer un nouveau Pokémon
-  @PostMapping // [cite: 25]
+  @PostMapping
   public ResponseEntity<PokemonOutputDto> createPokemon(@RequestBody PokemonInputDto dto) {
     PokemonOutputDto createdPokemon = pokemonService.createPokemon(dto);
-    return new ResponseEntity<>(createdPokemon, HttpStatus.CREATED); // Code 201
+    return new ResponseEntity<>(createdPokemon, HttpStatus.CREATED);
   }
 
-  // Liste de tous les Pokémon
-  @GetMapping // [cite: 26]
+  @GetMapping
   public ResponseEntity<List<PokemonOutputDto>> getAllPokemons() {
-    return ResponseEntity.ok(pokemonService.getAllPokemons()); // Code 200
+    return ResponseEntity.ok(pokemonService.getAllPokemons());
   }
 
-  // Supprimer un Pokémon
-  @DeleteMapping("/{id}") // [cite: 27]
+  @DeleteMapping("/{id}")
   public ResponseEntity<Void> deletePokemon(@PathVariable Long id) {
     pokemonService.deletePokemon(id);
-    return ResponseEntity.noContent().build(); // Code 204
+    return ResponseEntity.noContent().build();
   }
-  // Recherche par Type
-  @GetMapping("/type/{type}") //
-  public ResponseEntity<List<PokemonOutputDto>> getPokemonsByType(@PathVariable com.example.b3pokemon.enumeration.PokemonType type) {
+
+
+  @GetMapping("/type/{type}")
+  public ResponseEntity<List<PokemonOutputDto>> getPokemonsByType(@PathVariable PokemonType type) {
     return ResponseEntity.ok(pokemonService.getPokemonsByType(type));
   }
 }

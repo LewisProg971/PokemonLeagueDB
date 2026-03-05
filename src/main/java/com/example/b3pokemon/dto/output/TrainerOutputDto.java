@@ -6,13 +6,35 @@ public class TrainerOutputDto {
   private String city;
   private Integer experiencePoints;
 
-  // Getters et Setters (à générer comme pour les autres)
-  public Long getId() { return id; }
-  public void setId(Long id) { this.id = id; }
-  public String getName() { return name; }
-  public void setName(String name) { this.name = name; }
-  public String getCity() { return city; }
-  public void setCity(String city) { this.city = city; }
-  public Integer getExperiencePoints() { return experiencePoints; }
-  public void setExperiencePoints(Integer experiencePoints) { this.experiencePoints = experiencePoints; }
+  public Long getId() {
+    return id;
+  }
+
+  public void setId(Long id) {
+    this.id = id;
+  }
+
+  public String getName() {
+    return name;
+  }
+
+  public void setName(String name) {
+    this.name = name;
+  }
+
+  public String getCity() {
+    return city;
+  }
+
+  public void setCity(String city) {
+    this.city = city;
+  }
+
+  public Integer getExperiencePoints() {
+    return experiencePoints;
+  }
+
+  public void setExperiencePoints(Integer experiencePoints) {
+    this.experiencePoints = experiencePoints;
+  }
 }

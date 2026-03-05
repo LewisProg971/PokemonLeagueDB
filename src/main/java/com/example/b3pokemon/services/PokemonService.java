@@ -4,6 +4,7 @@ import com.example.b3pokemon.dto.input.PokemonInputDto;
 import com.example.b3pokemon.dto.output.PokemonOutputDto;
 import com.example.b3pokemon.entities.PokemonEntity;
 import com.example.b3pokemon.entities.TrainerEntity;
+import com.example.b3pokemon.enumeration.PokemonType;
 import com.example.b3pokemon.repositories.PokemonRepository;
 import com.example.b3pokemon.repositories.TrainerRepository;
 import org.springframework.stereotype.Service;
@@ -55,7 +56,6 @@ public class PokemonService implements IPokemonService {
     pokemonRepository.deleteById(id);
   }
 
-  // Méthode utilitaire de mapping
   private PokemonOutputDto mapToOutputDto(PokemonEntity entity) {
     PokemonOutputDto dto = new PokemonOutputDto();
     dto.setId(entity.getId());
@@ -68,8 +68,9 @@ public class PokemonService implements IPokemonService {
     }
     return dto;
   }
+
   @Override
-  public List<PokemonOutputDto> getPokemonsByType(com.example.b3pokemon.enumeration.PokemonType type) {
+  public List<PokemonOutputDto> getPokemonsByType(PokemonType type) {
     return pokemonRepository.findByType(type).stream()
       .map(this::mapToOutputDto)
       .collect(Collectors.toList());

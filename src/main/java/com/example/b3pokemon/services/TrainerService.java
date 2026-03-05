@@ -23,6 +23,7 @@ public class TrainerService implements ITrainerService {
     this.pokemonRepository = pokemonRepository;
   }
 
+
   @Override
   public TrainerOutputDto createTrainer(TrainerInputDto dto) {
     TrainerEntity entity = new TrainerEntity();
@@ -34,6 +35,7 @@ public class TrainerService implements ITrainerService {
     return mapToOutputDto(savedEntity);
   }
 
+
   @Override
   public List<TrainerOutputDto> getAllTrainers() {
     return trainerRepository.findAll().stream()
@@ -41,12 +43,14 @@ public class TrainerService implements ITrainerService {
       .collect(Collectors.toList());
   }
 
+
   @Override
   public TrainerOutputDto getTrainerById(Long id) {
     TrainerEntity entity = trainerRepository.findById(id)
-      .orElseThrow(() -> new RuntimeException("Dresseur introuvable avec l'ID : " + id)); // Géré plus tard par le controller
+      .orElseThrow(() -> new RuntimeException("Dresseur introuvable avec l'ID : " + id));
     return mapToOutputDto(entity);
   }
+
 
   @Override
   public void deleteTrainer(Long id) {
@@ -56,7 +60,6 @@ public class TrainerService implements ITrainerService {
     trainerRepository.deleteById(id);
   }
 
-  // Méthode utilitaire de mapping
   private TrainerOutputDto mapToOutputDto(TrainerEntity entity) {
     TrainerOutputDto dto = new TrainerOutputDto();
     dto.setId(entity.getId());
@@ -66,15 +69,14 @@ public class TrainerService implements ITrainerService {
     return dto;
   }
 
+
   @Override
-  @Transactional // Requis car on modifie la base de données et on manipule des listes LAZY
+  @Transactional
   public void capturePokemon(Long trainerId, Long pokemonId) {
     TrainerEntity trainer = trainerRepository.findById(trainerId)
       .orElseThrow(() -> new RuntimeException("Dresseur introuvable"));
 
-    // Règle : Un dresseur ne peut pas posséder plus de 6 Pokémon [cite: 32]
     if (trainer.getPokemons().size() >= 6) {
-      // Lève une exception qui ne contient pas "introuvable" pour déclencher une 400 Bad Request [cite: 33] dans le GlobalExceptionHandler
       throw new RuntimeException("Limite atteinte : Un dresseur ne peut pas posséder plus de 6 Pokémon.");
     }
 
@@ -84,6 +86,7 @@ public class TrainerService implements ITrainerService {
     pokemon.setTrainer(trainer);
     pokemonRepository.save(pokemon);
   }
+
 
   @Override
   @Transactional(readOnly = true)
@@ -101,6 +104,7 @@ public class TrainerService implements ITrainerService {
       .orElse(0.0);
   }
 
+
   @Override
   @Transactional(readOnly = true)
   public com.example.b3pokemon.dto.output.TrainerProfileOutputDto getTrainerProfile(Long trainerId) {
@@ -108,13 +112,12 @@ public class TrainerService implements ITrainerService {
       .orElseThrow(() -> new RuntimeException("Dresseur introuvable"));
 
     com.example.b3pokemon.dto.output.TrainerProfileOutputDto profile = new com.example.b3pokemon.dto.output.TrainerProfileOutputDto();
-    profile.setName(trainer.getName()); // [cite: 38]
-    profile.setCity(trainer.getCity()); // [cite: 38]
-    profile.setExperiencePoints(trainer.getExperiencePoints()); // [cite: 38]
+    profile.setName(trainer.getName());
+    profile.setCity(trainer.getCity());
+    profile.setExperiencePoints(trainer.getExperiencePoints());
 
     List<PokemonEntity> team = trainer.getPokemons();
 
-    // Mapping de l'équipe [cite: 39]
     profile.setTeam(team.stream().map(this::mapPokemonToDto).collect(Collectors.toList()));
 
     if (team.isEmpty()) {
@@ -123,7 +126,6 @@ public class TrainerService implements ITrainerService {
       return profile;
     }
 
-    // Type de Prédilection [cite: 40]
     com.example.b3pokemon.enumeration.PokemonType favoriteType = team.stream()
       .collect(Collectors.groupingBy(PokemonEntity::getType, Collectors.counting()))
       .entrySet().stream()
@@ -132,7 +134,6 @@ public class TrainerService implements ITrainerService {
       .orElse(null);
     profile.setFavoriteType(favoriteType);
 
-    // Power Score : Somme des niveaux + bonus de 10% si >= 3 types différents [cite: 41]
     int sumLevels = team.stream().mapToInt(PokemonEntity::getLevel).sum();
     long distinctTypes = team.stream().map(PokemonEntity::getType).distinct().count();
     double powerScore = sumLevels;
@@ -141,7 +142,6 @@ public class TrainerService implements ITrainerService {
     }
     profile.setPowerScore(powerScore);
 
-    // Statut de Légende : True si 6 Pokémon ET niveau moyen > 75 [cite: 42]
     double avgLevel = getAverageLevel(trainerId);
     boolean isLegend = (team.size() == 6 && avgLevel > 75);
     profile.setLegendStatus(isLegend);
@@ -149,7 +149,7 @@ public class TrainerService implements ITrainerService {
     return profile;
   }
 
-  // Utilitaire pour mapper les Pokémons de l'équipe (éviter les imports circulaires massifs)
+
   private com.example.b3pokemon.dto.output.PokemonOutputDto mapPokemonToDto(PokemonEntity entity) {
     com.example.b3pokemon.dto.output.PokemonOutputDto dto = new com.example.b3pokemon.dto.output.PokemonOutputDto();
     dto.setId(entity.getId());

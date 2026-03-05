@@ -24,27 +24,55 @@ public class PokemonEntity {
   @Column(nullable = false, length = 20)
   private PokemonType type;
 
-  // Relation Many-to-One vers Trainer
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "trainer_id")
   private TrainerEntity trainer;
 
-  // Getters et Setters
-  public Long getId() { return id; }
-  public void setId(Long id) { this.id = id; }
+  public Long getId() {
+    return id;
+  }
 
-  public String getName() { return name; }
-  public void setName(String name) { this.name = name; }
+  public void setId(Long id) {
+    this.id = id;
+  }
 
-  public String getNickname() { return nickname; }
-  public void setNickname(String nickname) { this.nickname = nickname; }
+  public String getName() {
+    return name;
+  }
 
-  public Integer getLevel() { return level; }
-  public void setLevel(Integer level) { this.level = level; }
+  public void setName(String name) {
+    this.name = name;
+  }
 
-  public PokemonType getType() { return type; }
-  public void setType(PokemonType type) { this.type = type; }
+  public String getNickname() {
+    return nickname;
+  }
 
-  public TrainerEntity getTrainer() { return trainer; }
-  public void setTrainer(TrainerEntity trainer) { this.trainer = trainer; }
+  public void setNickname(String nickname) {
+    this.nickname = nickname;
+  }
+
+  public Integer getLevel() {
+    return level;
+  }
+
+  public void setLevel(Integer level) {
+    this.level = level;
+  }
+
+  public PokemonType getType() {
+    return type;
+  }
+
+  public void setType(PokemonType type) {
+    this.type = type;
+  }
+
+  public TrainerEntity getTrainer() {
+    return trainer;
+  }
+
+  public void setTrainer(TrainerEntity trainer) {
+    this.trainer = trainer;
+  }
 }
